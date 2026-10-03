@@ -11,7 +11,7 @@ http.createServer((req, res) => {
 });
 
 // Bot Bilgileri
-const TOKEN = '7893301924:AAFF_3fE957DVkGpSri0kY82mYpFQIhEWjs'; 
+const TOKEN = '8893301924:AAFF5CnVGC2OFc_gn6G63xwyO3aNMFZR9Jw'; 
 const ADMIN_ID = 6455266137; 
 const WEBAPP_URL = 'https://probable-octo-potato-ivory.vercel.app';
 
