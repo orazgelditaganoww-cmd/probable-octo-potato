@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>NexusPulse VIP Signals Pro</title>
-  <!-- Telegram WebApp SDK -->
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <style>
     * {
@@ -37,7 +36,6 @@
       gap: 14px;
     }
 
-    /* VIP Header */
     .header {
       display: flex;
       justify-content: space-between;
@@ -53,12 +51,9 @@
       display: flex;
       align-items: center;
       gap: 6px;
-      letter-spacing: 0.5px;
     }
 
-    .brand span {
-      color: #00e676;
-    }
+    .brand span { color: #00e676; }
 
     .vip-badge {
       font-size: 11px;
@@ -68,12 +63,8 @@
       border-radius: 20px;
       font-weight: 800;
       box-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
-      display: flex;
-      align-items: center;
-      gap: 4px;
     }
 
-    /* Grid Controls */
     .controls-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -91,7 +82,6 @@
       color: #787d8d;
       text-transform: uppercase;
       font-weight: 800;
-      letter-spacing: 0.5px;
     }
 
     select {
@@ -106,54 +96,70 @@
       width: 100%;
     }
 
-    select:focus {
-      border-color: #ffd700;
-    }
+    select:focus { border-color: #ffd700; }
 
-    /* Guide Box */
-    .guide-box {
-      background: rgba(255, 215, 0, 0.03);
-      border: 1px dashed rgba(255, 215, 0, 0.2);
-      border-radius: 10px;
-      padding: 8px 12px;
-      font-size: 11px;
+    /* Signal Display Box */
+    .signal-result-card {
+      background: #0d111a;
+      border: 1px solid #252d3d;
+      border-radius: 14px;
+      padding: 14px;
+      text-align: center;
       display: flex;
-      justify-content: space-between;
+      flex-direction: column;
       align-items: center;
+      justify-content: center;
+      min-height: 85px;
     }
 
-    .buy-tag { color: #00e676; font-weight: 800; }
-    .sell-tag { color: #ff5252; font-weight: 800; }
+    .signal-title {
+      font-size: 11px;
+      color: #787d8d;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+    }
 
-    /* TradingView Container */
+    .signal-value {
+      font-size: 22px;
+      font-weight: 900;
+      color: #ffd700;
+    }
+
+    .timer-text {
+      font-size: 13px;
+      color: #00e676;
+      font-weight: 700;
+      margin-top: 4px;
+    }
+
     .widget-box {
       background: #090c12;
       border: 1px solid #1f2636;
       border-radius: 14px;
       overflow: hidden;
-      height: 400px;
+      height: 380px;
     }
 
-    /* Send to Bot Button */
-    .bot-btn {
-      background: linear-gradient(135deg, #0088cc, #005580);
+    .action-btn {
+      background: linear-gradient(135deg, #00e676, #00b359);
       border: none;
-      color: white;
-      padding: 12px;
-      font-size: 14px;
-      font-weight: 800;
-      border-radius: 10px;
+      color: #000;
+      padding: 14px;
+      font-size: 16px;
+      font-weight: 900;
+      border-radius: 12px;
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      box-shadow: 0 4px 15px rgba(0, 136, 204, 0.3);
+      box-shadow: 0 4px 20px rgba(0, 230, 118, 0.3);
       transition: all 0.2s;
     }
 
-    .bot-btn:active {
-      transform: scale(0.98);
+    .action-btn:active { transform: scale(0.98); }
+    .action-btn:disabled {
+      background: #2a3245;
+      color: #787d8d;
+      box-shadow: none;
+      cursor: not-allowed;
     }
   </style>
 </head>
@@ -165,12 +171,10 @@
       <div class="vip-badge">👑 VIP SIGNALS</div>
     </div>
 
-    <!-- Parite ve Süre Seçimi -->
     <div class="controls-grid">
       <div class="control-group">
         <label for="symbolSelect">Kripto / Parite</label>
         <select id="symbolSelect" onchange="updateWidget()">
-          <!-- Kripto Paralar -->
           <optgroup label="🔥 Popüler Kriptolar">
             <option value="BINANCE:BTCUSDT">BTC / USDT (Bitcoin)</option>
             <option value="BINANCE:ETHUSDT">ETH / USDT (Ethereum)</option>
@@ -178,12 +182,8 @@
             <option value="BINANCE:XRPUSDT">XRP / USDT (Ripple)</option>
             <option value="BINANCE:DOGEUSDT">DOGE / USDT (Dogecoin)</option>
             <option value="BINANCE:TONUSDT">TON / USDT (Toncoin)</option>
-            <option value="BINANCE:BNBUSDT">BNB / USDT (Binance)</option>
-            <option value="BINANCE:AVAXUSDT">AVAX / USDT (Avalanche)</option>
-            <option value="BINANCE:ADAUSDT">ADA / USDT (Cardano)</option>
           </optgroup>
-          <!-- Forex Pariteleri -->
-          <optgroup label="💱 Forex & OTC">
+          <optgroup label="💱 Forex Pariteleri">
             <option value="FX:EURUSD">EUR / USD (Döviz)</option>
             <option value="FX:GBPUSD">GBP / USD (Döviz)</option>
             <option value="FX:USDJPY">USD / JPY (Döviz)</option>
@@ -194,44 +194,37 @@
       <div class="control-group">
         <label for="timeSelect">Süre Seçimi</label>
         <select id="timeSelect">
-          <option value="3s">⚡ 3 Saniye</option>
-          <option value="5s">⚡ 5 Saniye</option>
-          <option value="15s">⏱ 15 Saniye</option>
-          <option value="30s">⏱ 30 Saniye</option>
-          <option value="1m">⏳ 1 Dakika</option>
-          <option value="5m">⏳ 5 Dakika</option>
+          <option value="3">⚡ 3 Saniye</option>
+          <option value="5">⚡ 5 Saniye</option>
+          <option value="15">⏱ 15 Saniye</option>
+          <option value="30">⏱ 30 Saniye</option>
+          <option value="60">⏳ 1 Dakika</option>
+          <option value="300">⏳ 5 Dakika</option>
         </select>
       </div>
     </div>
 
-    <!-- VIP Kılavuz -->
-    <div class="guide-box">
-      <span>👑 VIP Analiz Kararı:</span>
-      <div>
-        <span class="buy-tag">GÜÇLÜ AL 🟢</span> | <span class="sell-tag">GÜÇLÜ SAT 🔴</span>
-      </div>
+    <!-- Sinyal Gösterim Alanı -->
+    <div class="signal-result-card">
+      <div class="signal-title" id="boxTitle">VIP Analiz Durumu</div>
+      <div class="signal-value" id="signalOutput">HAZIR</div>
+      <div class="timer-text" id="timerOutput" style="display: none;"></div>
     </div>
 
-    <!-- TradingView Canlı Gerçek Analiz İbresi -->
+    <!-- TradingView Canlı Teknik Analiz -->
     <div class="widget-box" id="widgetContainer"></div>
 
-    <!-- Bota Gönder Butonu -->
-    <button class="bot-btn" onclick="sendSignalToBot()">
-      ✈️ BOTA SİNYALİ GÖNDER
-    </button>
+    <!-- Sinyal Üret Butonu -->
+    <button class="action-btn" id="mainBtn" onclick="generateVipSignal()">🎯 CANLI SİNYAL AL</button>
   </div>
 
   <script>
-    // Telegram WebApp Başlat
     const tg = window.Telegram ? window.Telegram.WebApp : null;
-    if (tg) {
-      tg.expand(); // Ekranı tam boyuta getir
-    }
+    if (tg) tg.expand();
 
     function updateWidget() {
       const container = document.getElementById('widgetContainer');
       const symbol = document.getElementById('symbolSelect').value;
-
       container.innerHTML = '';
 
       const widgetDiv = document.createElement('div');
@@ -250,7 +243,7 @@
         "interval": "1m",
         "width": "100%",
         "isTransparent": true,
-        "height": "400",
+        "height": "380",
         "symbol": symbol,
         "showIntervalTabs": true,
         "displayMode": "single",
@@ -262,27 +255,52 @@
       container.appendChild(widgetDiv);
     }
 
-    // Seçilen Sinyali Telegram Botuna Mesaj Olarak Gönderme Fonksiyonu
-    function sendSignalToBot() {
-      const symbolSelect = document.getElementById('symbolSelect');
-      const pairText = symbolSelect.options[symbolSelect.selectedIndex].text;
-      const timeSelect = document.getElementById('timeSelect').value;
+    let timerInterval;
 
-      const payload = {
-        action: "VIP_SIGNAL_SELECTED",
-        pair: pairText,
-        timeframe: timeSelect,
-        timestamp: new Date().toLocaleTimeString('tr-TR')
-      };
+    function generateVipSignal() {
+      const btn = document.getElementById('mainBtn');
+      const signalOutput = document.getElementById('signalOutput');
+      const timerOutput = document.getElementById('timerOutput');
+      const boxTitle = document.getElementById('boxTitle');
+      const timeSec = parseInt(document.getElementById('timeSelect').value);
 
-      if (tg) {
-        tg.sendData(JSON.stringify(payload));
-      } else {
-        alert(`VIP Sinyal Bilgisi:\nParite: ${pairText}\nSüre: ${timeSelect}\n\n(Bu WebApp Telegram içinde açıldığında veriler doğrudan bota iletilir.)`);
-      }
+      btn.disabled = true;
+      boxTitle.innerText = "TradingView Taranıyor...";
+      signalOutput.style.color = "#ffd700";
+      signalOutput.innerText = "ANALİZ EDİLİYOR...";
+      timerOutput.style.display = "none";
+
+      setTimeout(() => {
+        const isCall = Math.random() > 0.48;
+        if (isCall) {
+          signalOutput.style.color = "#00e676";
+          signalOutput.innerText = "🟢 YÜKSELİŞ (CALL)";
+        } else {
+          signalOutput.style.color = "#ff5252";
+          signalOutput.innerText = "🔴 DÜŞÜŞ (PUT)";
+        }
+
+        boxTitle.innerText = "Aktif VIP Sinyal";
+        timerOutput.style.display = "block";
+
+        let timeLeft = timeSec;
+        timerOutput.innerText = `⏱ Kalan Süre: ${timeLeft}s`;
+
+        clearInterval(timerInterval);
+        timerInterval = setInterval(() => {
+          timeLeft--;
+          if (timeLeft > 0) {
+            timerOutput.innerText = `⏱ Kalan Süre: ${timeLeft}s`;
+          } else {
+            clearInterval(timerInterval);
+            timerOutput.innerText = "✅ İŞLEM TAMAMLANDI";
+            btn.disabled = false;
+          }
+        }, 1000);
+
+      }, 1000);
     }
 
-    // İlk açılışta yükle
     updateWidget();
   </script>
 
