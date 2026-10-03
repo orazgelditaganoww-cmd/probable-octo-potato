@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NexusPulse Pro - Trading Terminal</title>
+  <title>NexusPulse Pro - Canlı Al/Sat Sinyalleri</title>
   <style>
     * {
       box-sizing: border-box;
@@ -27,21 +27,20 @@
       border: 1px solid #2a2e3d;
       border-radius: 16px;
       width: 100%;
-      max-width: 400px;
-      padding: 20px;
+      max-width: 420px;
+      padding: 16px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.6);
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 14px;
     }
 
-    /* Top Bar */
     .header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       border-bottom: 1px solid #2a2e3d;
-      padding-bottom: 12px;
+      padding-bottom: 10px;
     }
 
     .brand {
@@ -53,38 +52,17 @@
       gap: 6px;
     }
 
-    .status-badge {
-      font-size: 11px;
+    .account-tag {
+      font-size: 10px;
       background: rgba(0, 230, 118, 0.15);
       color: #00e676;
       padding: 4px 8px;
       border-radius: 20px;
       border: 1px solid rgba(0, 230, 118, 0.3);
+      font-weight: 700;
     }
 
-    /* Canvas Chart Area */
-    .chart-container {
-      background: #0d1117;
-      border: 1px solid #2a2e3d;
-      border-radius: 12px;
-      height: 140px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    canvas {
-      width: 100%;
-      height: 100%;
-    }
-
-    /* Controls */
-    .controls-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
-
-    .control-group {
+    .controls {
       display: flex;
       flex-direction: column;
       gap: 6px;
@@ -101,75 +79,50 @@
       background: #1e222d;
       border: 1px solid #2a2e3d;
       color: #fff;
-      padding: 10px;
+      padding: 12px;
       border-radius: 8px;
-      font-size: 13px;
+      font-size: 14px;
       outline: none;
       font-weight: 600;
+      width: 100%;
     }
 
     select:focus {
-      border-color: #2962ff;
+      border-color: #00e676;
     }
 
-    /* Signal & Countdown Box */
-    .signal-box {
+    .guide-box {
+      background: #161b22;
+      border: 1px solid #2a2e3d;
+      border-radius: 8px;
+      padding: 10px;
+      font-size: 12px;
+      display: flex;
+      justify-content: space-around;
+      text-align: center;
+    }
+
+    .guide-item {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .buy-text { color: #00e676; font-weight: 800; }
+    .sell-text { color: #ff5252; font-weight: 800; }
+
+    /* TradingView Widget Kapsayıcısı */
+    .widget-box {
       background: #0d1117;
       border: 1px solid #2a2e3d;
       border-radius: 12px;
-      padding: 16px;
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 90px;
+      overflow: hidden;
+      min-height: 420px;
     }
 
-    .signal-title {
-      font-size: 12px;
-      color: #787d8d;
-      margin-bottom: 4px;
-    }
-
-    .signal-value {
-      font-size: 22px;
-      font-weight: 800;
-      color: #2962ff;
-    }
-
-    .timer-display {
-      font-size: 14px;
-      color: #ffb300;
-      font-weight: 700;
-      margin-top: 4px;
-      display: none;
-    }
-
-    /* Pocket Option Style Button */
-    .action-btn {
-      background: linear-gradient(135deg, #2962ff, #1e4bd8);
-      border: none;
-      color: white;
-      padding: 14px;
-      font-size: 16px;
-      font-weight: 800;
-      border-radius: 10px;
-      cursor: pointer;
-      box-shadow: 0 4px 15px rgba(41, 98, 255, 0.4);
-      transition: all 0.2s;
-    }
-
-    .action-btn:active {
-      transform: scale(0.98);
-      opacity: 0.9;
-    }
-
-    .action-btn:disabled {
-      background: #2a2e3d;
-      box-shadow: none;
-      color: #787d8d;
-      cursor: not-allowed;
+    .tradingview-widget-container {
+      width: 100%;
+      height: 100%;
     }
   </style>
 </head>
@@ -177,173 +130,75 @@
 
   <div class="app-card">
     <div class="header">
-      <div class="brand">⚡ NexusPulse Pro</div>
-      <div class="status-badge">LIVE OTC</div>
+      <div class="brand">⚡ NexusPulse Sinyal</div>
+      <div class="account-tag">DEMO & GERÇEK UYUMLU</div>
     </div>
 
-    <!-- Live Candle Chart -->
-    <div class="chart-container">
-      <canvas id="candleChart"></canvas>
+    <!-- Parite Seçimi -->
+    <div class="controls">
+      <label for="symbolSelect">İşlem Yapılacak Parite</label>
+      <select id="symbolSelect" onchange="updateWidget()">
+        <option value="FX:EURUSD">EUR / USD (Döviz)</option>
+        <option value="FX:GBPUSD">GBP / USD (Döviz)</option>
+        <option value="FX:USDJPY">USD / JPY (Döviz)</option>
+        <option value="BINANCE:BTCUSDT">BTC / USDT (Kripto)</option>
+        <option value="BINANCE:ETHUSDT">ETH / USDT (Kripto)</option>
+      </select>
     </div>
 
-    <!-- Controls -->
-    <div class="controls-grid">
-      <div class="control-group">
-        <label for="pairSelect">Parite</label>
-        <select id="pairSelect">
-          <option value="EUR/USD (OTC)">EUR / USD (OTC)</option>
-          <option value="GBP/USD (OTC)">GBP / USD (OTC)</option>
-          <option value="USD/JPY (OTC)">USD / JPY (OTC)</option>
-          <option value="BTC/USDT">BTC / USDT</option>
-          <option value="ETH/USDT">ETH / USDT</option>
-        </select>
+    <!-- Kullanım Kılavuzu -->
+    <div class="guide-box">
+      <div class="guide-item">
+        <span>GÜÇLÜ AL / AL</span>
+        <span class="buy-text">🟢 YEŞİL (CALL)</span>
       </div>
-
-      <div class="control-group">
-        <label for="timeSelect">Süre (Saniye)</label>
-        <select id="timeSelect">
-          <option value="5">5 Saniye</option>
-          <option value="15">15 Saniye</option>
-          <option value="30">30 Saniye</option>
-          <option value="60">1 Dakika (60s)</option>
-          <option value="300">5 Dakika (300s)</option>
-        </select>
+      <div class="guide-item">
+        <span>GÜÇLÜ SAT / SAT</span>
+        <span class="sell-text">🔴 KIRMIZI (PUT)</span>
       </div>
     </div>
 
-    <!-- Signal Result & Timer -->
-    <div class="signal-box">
-      <div class="signal-title" id="boxTitle">Sinyal Durumu</div>
-      <div class="signal-value" id="signalOutput">HAZIR</div>
-      <div class="timer-display" id="timerOutput">⏳ Kalan Süre: 0s</div>
-    </div>
-
-    <!-- Action Button -->
-    <button class="action-btn" id="mainBtn" onclick="runAnalysis()">SİNYAL AL</button>
+    <!-- TradingView Canlı İndikatör Alanı -->
+    <div class="widget-box" id="widgetContainer"></div>
   </div>
 
   <script>
-    // --- Animated Candlestick Chart Simulation ---
-    const canvas = document.getElementById('candleChart');
-    const ctx = canvas.getContext('2d');
+    function updateWidget() {
+      const container = document.getElementById('widgetContainer');
+      const symbol = document.getElementById('symbolSelect').value;
 
-    function resizeCanvas() {
-      canvas.width = canvas.parentElement.clientWidth;
-      canvas.height = canvas.parentElement.clientHeight;
-    }
-    resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
+      container.innerHTML = '';
 
-    let candles = [];
-    const candleCount = 18;
+      const widgetDiv = document.createElement('div');
+      widgetDiv.className = 'tradingview-widget-container';
 
-    // Generate initial candles
-    let lastClose = 100;
-    for (let i = 0; i < candleCount; i++) {
-      let open = lastClose;
-      let close = open + (Math.random() - 0.48) * 6;
-      let high = Math.max(open, close) + Math.random() * 3;
-      let low = Math.min(open, close) - Math.random() * 3;
-      candles.push({ open, close, high, low });
-      lastClose = close;
-    }
+      const widgetInner = document.createElement('div');
+      widgetInner.className = 'tradingview-widget-container__widget';
+      widgetDiv.appendChild(widgetInner);
 
-    function drawChart() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      const w = canvas.width / candleCount;
-      const padding = 4;
+      const script = document.createElement('script');
+      script.type = 'text/javascript';
+      script.src = 'https://s3.tradingview.com/external-embedding/embed-widget-technical-analysis.js';
+      script.async = true;
 
-      // Find min and max for scaling
-      let min = Math.min(...candles.map(c => c.low));
-      let max = Math.max(...candles.map(c => c.high));
-
-      candles.forEach((c, i) => {
-        const x = i * w + w / 2;
-        const isGreen = c.close >= c.open;
-        const color = isGreen ? '#00e676' : '#ff5252';
-
-        const openY = canvas.height - ((c.open - min) / (max - min)) * (canvas.height - 20) - 10;
-        const closeY = canvas.height - ((c.close - min) / (max - min)) * (canvas.height - 20) - 10;
-        const highY = canvas.height - ((c.high - min) / (max - min)) * (canvas.height - 20) - 10;
-        const lowY = canvas.height - ((c.low - min) / (max - min)) * (canvas.height - 20) - 10;
-
-        // Draw Wick
-        ctx.strokeStyle = color;
-        ctx.lineWidth = 1.5;
-        ctx.beginPath();
-        ctx.moveTo(x, highY);
-        ctx.lineTo(x, lowY);
-        ctx.stroke();
-
-        // Draw Candle Body
-        ctx.fillStyle = color;
-        const bodyTop = Math.min(openY, closeY);
-        const bodyHeight = Math.max(Math.abs(openY - closeY), 2);
-        ctx.fillRect(x - (w - padding * 2) / 2, bodyTop, w - padding * 2, bodyHeight);
+      script.innerHTML = JSON.stringify({
+        "interval": "1m",
+        "width": "100%",
+        "isTransparent": true,
+        "height": "430",
+        "symbol": symbol,
+        "showIntervalTabs": true,
+        "displayMode": "single",
+        "locale": "tr",
+        "colorTheme": "dark"
       });
+
+      widgetDiv.appendChild(script);
+      container.appendChild(widgetDiv);
     }
 
-    // Live chart update interval
-    setInterval(() => {
-      let last = candles[candles.length - 1];
-      let open = last.close;
-      let close = open + (Math.random() - 0.48) * 5;
-      let high = Math.max(open, close) + Math.random() * 2;
-      let low = Math.min(open, close) - Math.random() * 2;
-
-      candles.shift();
-      candles.push({ open, close, high, low });
-      drawChart();
-    }, 1200);
-
-    drawChart();
-
-    // --- Signal & Timer Logic ---
-    let timerInterval = null;
-
-    function runAnalysis() {
-      const btn = document.getElementById('mainBtn');
-      const signalOutput = document.getElementById('signalOutput');
-      const timerOutput = document.getElementById('timerOutput');
-      const boxTitle = document.getElementById('boxTitle');
-      const timeSec = parseInt(document.getElementById('timeSelect').value);
-
-      btn.disabled = true;
-      boxTitle.innerText = "Yapay Zeka Analiz Ediyor...";
-      signalOutput.style.color = "#ffb300";
-      signalOutput.innerText = "ANALİZ...";
-      timerOutput.style.display = "none";
-
-      setTimeout(() => {
-        const isCall = Math.random() > 0.48;
-        if (isCall) {
-          signalOutput.style.color = "#00e676";
-          signalOutput.innerText = "🟢 YÜKSELİŞ (CALL)";
-        } else {
-          signalOutput.style.color = "#ff5252";
-          signalOutput.innerText = "🔴 DÜŞÜŞ (PUT)";
-        }
-
-        boxTitle.innerText = "Aktif İşlem Sinyali";
-        timerOutput.style.display = "block";
-
-        let timeLeft = timeSec;
-        timerOutput.innerText = `⏱ Saniye: ${timeLeft}s`;
-
-        clearInterval(timerInterval);
-        timerInterval = setInterval(() => {
-          timeLeft--;
-          if (timeLeft > 0) {
-            timerOutput.innerText = `⏱ Saniye: ${timeLeft}s`;
-          } else {
-            clearInterval(timerInterval);
-            timerOutput.innerText = "✅ İŞLEM TAMAMLANDI";
-            btn.disabled = false;
-          }
-        }, 1000);
-
-      }, 1000);
-    }
+    updateWidget();
   </script>
+
 </body>
 </html>
