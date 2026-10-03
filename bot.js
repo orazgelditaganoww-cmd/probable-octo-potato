@@ -1,10 +1,19 @@
 const TelegramBot = require('node-telegram-bot-api');
+const http = require('http');
 
-// BotFather'dan alınan Token:
-const TOKEN = '8893301924:AAFF_3fE957DVkGpSri0kY82mYpFQIhEWjs'; 
+// Render Ücretsiz Web Service uyumluluk sunucusu (7/24 aktif kalması için gerekli)
+const PORT = process.env.PORT || 3000;
+http.createServer((req, res) => {
+  res.writeHead(200, { 'Content-Type': 'text/plain' });
+  res.end('Bot 7/24 Aktif!');
+}).listen(PORT, () => {
+  console.log(`Sunucu ${PORT} portunda çalışıyor.`);
+});
 
-// Sizin Telegram ID'niz:
+// Bot Bilgileri
+const TOKEN = '7893301924:AAFF_3fE957DVkGpSri0kY82mYpFQIhEWjs'; 
 const ADMIN_ID = 6455266137; 
+const WEBAPP_URL = 'https://probable-octo-potato-ivory.vercel.app';
 
 const bot = new TelegramBot(TOKEN, { polling: true });
 const approvedUsers = new Set([ADMIN_ID]); 
@@ -20,7 +29,7 @@ bot.onText(/\/start/, (msg) => {
     return bot.sendMessage(chatId, `Hoş geldiniz ${firstName}! VIP Terminal hazır:`, {
       reply_markup: {
         inline_keyboard: [
-          [{ text: "⚡ VIP Terminali Aç", web_app: { url: "https://probable-octo-potato-ivory.vercel.app" } }]
+          [{ text: "⚡ VIP Terminali Aç", web_app: { url: WEBAPP_URL } }]
         ]
       }
     });
@@ -64,7 +73,7 @@ bot.on('callback_query', (query) => {
     bot.sendMessage(userIdToApprove, "🎉 **Erişiminiz Onaylandı!**\n\nAşağıdaki butondan VIP Terminali açabilirsiniz:", {
       reply_markup: {
         inline_keyboard: [
-          [{ text: "⚡ VIP Terminali Aç", web_app: { url: "https://probable-octo-potato-ivory.vercel.app" } }]
+          [{ text: "⚡ VIP Terminali Aç", web_app: { url: WEBAPP_URL } }]
         ]
       }
     });
