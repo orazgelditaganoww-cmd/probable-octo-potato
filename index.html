@@ -1,83 +1,156 @@
 <!DOCTYPE html>
-<html lang="tk">
+<html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NexusPulse AI</title>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <style>
-        body {
-            background-color: #0d0f17;
-            color: #ffffff;
-            font-family: Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .card {
-            background: #1a1d2e;
-            border: 1px solid #2a2e45;
-            border-radius: 20px;
-            padding: 25px;
-            width: 85%;
-            max-width: 320px;
-            text-align: center;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-        }
-        .logo-title {
-            font-size: 20px;
-            font-weight: bold;
-            color: #00e676;
-            margin-bottom: 15px;
-        }
-        .signal-result {
-            font-size: 22px;
-            font-weight: bold;
-            margin: 20px 0;
-            min-height: 35px;
-        }
-        .btn {
-            background: linear-gradient(90deg, #00c6ff, #0072ff);
-            border: none;
-            color: white;
-            padding: 14px 20px;
-            font-size: 16px;
-            font-weight: bold;
-            border-radius: 12px;
-            width: 100%;
-            cursor: pointer;
-        }
-        .btn:active { opacity: 0.8; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NexusPulse AI</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      background-color: #0d1117;
+      color: #ffffff;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    .card {
+      background-color: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 16px;
+      padding: 24px;
+      width: 100%;
+      max-width: 360px;
+      text-align: center;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    }
+    .title {
+      font-size: 20px;
+      font-weight: bold;
+      color: #2ea043;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .form-group {
+      margin-bottom: 16px;
+      text-align: left;
+    }
+    label {
+      display: block;
+      font-size: 12px;
+      color: #8b949e;
+      margin-bottom: 6px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+    select {
+      width: 100%;
+      padding: 12px;
+      background-color: #21262d;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      color: #ffffff;
+      font-size: 14px;
+      outline: none;
+    }
+    select:focus {
+      border-color: #58a6ff;
+    }
+    .result-box {
+      background-color: #0d1117;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      padding: 16px;
+      margin: 20px 0;
+      font-size: 18px;
+      font-weight: bold;
+      color: #58a6ff;
+      min-height: 58px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .btn {
+      width: 100%;
+      padding: 14px;
+      background-color: #0088cc;
+      border: none;
+      border-radius: 8px;
+      color: #ffffff;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    .btn:active {
+      background-color: #006699;
+    }
+  </style>
 </head>
 <body>
 
-    <div class="card">
-        <div class="logo-title">⚡ NexusPulse AI</div>
-        <div style="color: #a0a5ba; font-size: 14px;">EUR / USD (OTC)</div>
-        <div class="signal-result" id="signal">Taýýar</div>
-        <button class="btn" onclick="generateSignal()">SIGNAL AL</button>
+  <div class="card">
+    <div class="title">⚡ NexusPulse AI</div>
+    
+    <!-- Parite Seçimi -->
+    <div class="form-group">
+      <label for="pair">Parite / Döviz Seçin</label>
+      <select id="pair">
+        <option value="EUR/USD (OTC)">EUR / USD (OTC)</option>
+        <option value="GBP/USD (OTC)">GBP / USD (OTC)</option>
+        <option value="USD/JPY (OTC)">USD / JPY (OTC)</option>
+        <option value="AUD/CAD (OTC)">AUD / CAD (OTC)</option>
+        <option value="BTC/USDT">BTC / USDT</option>
+      </select>
     </div>
 
-    <script>
-        let tg = window.Telegram.WebApp;
-        tg.expand();
+    <!-- Zaman Dilimi Seçimi -->
+    <div class="form-group">
+      <label for="timeframe">Süre (Zaman Dilimi)</label>
+      <select id="timeframe">
+        <option value="1 Dakika">1 Dakika</option>
+        <option value="2 Dakika">2 Dakika</option>
+        <option value="5 Dakika">5 Dakika</option>
+      </select>
+    </div>
 
-        function generateSignal() {
-            let signalElem = document.getElementById('signal');
-            signalElem.innerText = "ANALIZ EDILÝÄR...";
-            signalElem.style.color = "#ffb703";
+    <!-- Sinyal Durum Alanı -->
+    <div class="result-box" id="status">Tayýar</div>
 
-            setTimeout(() => {
-                let actions = ["BUY ⬆️ (1 MIN)", "SELL ⬇️ (1 MIN)"];
-                let result = actions[Math.floor(Math.random() * actions.length)];
-                signalElem.innerText = result;
-                signalElem.style.color = result.includes("BUY") ? "#00e676" : "#ff5252";
-            }, 1200);
+    <!-- Buton -->
+    <button class="btn" onclick="generateSignal()">SIGNAL AL</button>
+  </div>
+
+  <script>
+    function generateSignal() {
+      const pair = document.getElementById('pair').value;
+      const timeframe = document.getElementById('timeframe').value;
+      const status = document.getElementById('status');
+      
+      status.style.color = '#e3b341';
+      status.innerText = 'Analiz Yapılıyor...';
+      
+      setTimeout(() => {
+        const isCall = Math.random() > 0.5;
+        if (isCall) {
+          status.style.color = '#3fb950';
+          status.innerText = '🟢 AL (CALL)';
+        } else {
+          status.style.color = '#f85149';
+          status.innerText = '🔴 SAT (PUT)';
         }
-    </script>
+      }, 1200);
+    }
+  </script>
+
 </body>
-</html>
+        </html>
