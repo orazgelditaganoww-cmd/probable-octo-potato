@@ -3,7 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NexusPulse Pro - Canlı Al/Sat Sinyalleri</title>
+  <title>NexusPulse VIP Signals Pro</title>
+  <!-- Telegram WebApp SDK -->
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <style>
     * {
       box-sizing: border-box;
@@ -13,156 +15,219 @@
     }
 
     body {
-      background-color: #0b0e14;
+      background-color: #07090e;
       color: #e0e6ed;
       display: flex;
       justify-content: center;
       align-items: center;
       min-height: 100vh;
-      padding: 12px;
+      padding: 10px;
     }
 
-    .app-card {
-      background: #131722;
-      border: 1px solid #2a2e3d;
-      border-radius: 16px;
+    .vip-card {
+      background: linear-gradient(145deg, #121621, #0a0d14);
+      border: 1px solid #1f2636;
+      border-radius: 20px;
       width: 100%;
-      max-width: 420px;
-      padding: 16px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+      max-width: 440px;
+      padding: 18px;
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.8), 0 0 15px rgba(255, 215, 0, 0.05);
       display: flex;
       flex-direction: column;
       gap: 14px;
     }
 
+    /* VIP Header */
     .header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-bottom: 1px solid #2a2e3d;
-      padding-bottom: 10px;
+      border-bottom: 1px solid #1f2636;
+      padding-bottom: 12px;
     }
 
     .brand {
-      font-size: 18px;
-      font-weight: 800;
-      color: #00e676;
+      font-size: 19px;
+      font-weight: 900;
+      color: #ffffff;
       display: flex;
       align-items: center;
       gap: 6px;
+      letter-spacing: 0.5px;
     }
 
-    .account-tag {
-      font-size: 10px;
-      background: rgba(0, 230, 118, 0.15);
+    .brand span {
       color: #00e676;
-      padding: 4px 8px;
-      border-radius: 20px;
-      border: 1px solid rgba(0, 230, 118, 0.3);
-      font-weight: 700;
     }
 
-    .controls {
+    .vip-badge {
+      font-size: 11px;
+      background: linear-gradient(135deg, #ffd700, #ffa500);
+      color: #000;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-weight: 800;
+      box-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* Grid Controls */
+    .controls-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .control-group {
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 5px;
     }
 
     label {
-      font-size: 11px;
+      font-size: 10px;
       color: #787d8d;
       text-transform: uppercase;
-      font-weight: 700;
+      font-weight: 800;
+      letter-spacing: 0.5px;
     }
 
     select {
-      background: #1e222d;
-      border: 1px solid #2a2e3d;
+      background: #181d29;
+      border: 1px solid #2a3245;
       color: #fff;
-      padding: 12px;
-      border-radius: 8px;
-      font-size: 14px;
+      padding: 10px 8px;
+      border-radius: 10px;
+      font-size: 13px;
       outline: none;
-      font-weight: 600;
+      font-weight: 700;
       width: 100%;
     }
 
     select:focus {
-      border-color: #00e676;
+      border-color: #ffd700;
     }
 
+    /* Guide Box */
     .guide-box {
-      background: #161b22;
-      border: 1px solid #2a2e3d;
-      border-radius: 8px;
-      padding: 10px;
-      font-size: 12px;
+      background: rgba(255, 215, 0, 0.03);
+      border: 1px dashed rgba(255, 215, 0, 0.2);
+      border-radius: 10px;
+      padding: 8px 12px;
+      font-size: 11px;
       display: flex;
-      justify-content: space-around;
-      text-align: center;
+      justify-content: space-between;
+      align-items: center;
     }
 
-    .guide-item {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
+    .buy-tag { color: #00e676; font-weight: 800; }
+    .sell-tag { color: #ff5252; font-weight: 800; }
 
-    .buy-text { color: #00e676; font-weight: 800; }
-    .sell-text { color: #ff5252; font-weight: 800; }
-
-    /* TradingView Widget Kapsayıcısı */
+    /* TradingView Container */
     .widget-box {
-      background: #0d1117;
-      border: 1px solid #2a2e3d;
-      border-radius: 12px;
+      background: #090c12;
+      border: 1px solid #1f2636;
+      border-radius: 14px;
       overflow: hidden;
-      min-height: 420px;
+      height: 400px;
     }
 
-    .tradingview-widget-container {
-      width: 100%;
-      height: 100%;
+    /* Send to Bot Button */
+    .bot-btn {
+      background: linear-gradient(135deg, #0088cc, #005580);
+      border: none;
+      color: white;
+      padding: 12px;
+      font-size: 14px;
+      font-weight: 800;
+      border-radius: 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 4px 15px rgba(0, 136, 204, 0.3);
+      transition: all 0.2s;
+    }
+
+    .bot-btn:active {
+      transform: scale(0.98);
     }
   </style>
 </head>
 <body>
 
-  <div class="app-card">
+  <div class="vip-card">
     <div class="header">
-      <div class="brand">⚡ NexusPulse Sinyal</div>
-      <div class="account-tag">DEMO & GERÇEK UYUMLU</div>
+      <div class="brand">⚡ NexusPulse <span>PRO</span></div>
+      <div class="vip-badge">👑 VIP SIGNALS</div>
     </div>
 
-    <!-- Parite Seçimi -->
-    <div class="controls">
-      <label for="symbolSelect">İşlem Yapılacak Parite</label>
-      <select id="symbolSelect" onchange="updateWidget()">
-        <option value="FX:EURUSD">EUR / USD (Döviz)</option>
-        <option value="FX:GBPUSD">GBP / USD (Döviz)</option>
-        <option value="FX:USDJPY">USD / JPY (Döviz)</option>
-        <option value="BINANCE:BTCUSDT">BTC / USDT (Kripto)</option>
-        <option value="BINANCE:ETHUSDT">ETH / USDT (Kripto)</option>
-      </select>
+    <!-- Parite ve Süre Seçimi -->
+    <div class="controls-grid">
+      <div class="control-group">
+        <label for="symbolSelect">Kripto / Parite</label>
+        <select id="symbolSelect" onchange="updateWidget()">
+          <!-- Kripto Paralar -->
+          <optgroup label="🔥 Popüler Kriptolar">
+            <option value="BINANCE:BTCUSDT">BTC / USDT (Bitcoin)</option>
+            <option value="BINANCE:ETHUSDT">ETH / USDT (Ethereum)</option>
+            <option value="BINANCE:SOLUSDT">SOL / USDT (Solana)</option>
+            <option value="BINANCE:XRPUSDT">XRP / USDT (Ripple)</option>
+            <option value="BINANCE:DOGEUSDT">DOGE / USDT (Dogecoin)</option>
+            <option value="BINANCE:TONUSDT">TON / USDT (Toncoin)</option>
+            <option value="BINANCE:BNBUSDT">BNB / USDT (Binance)</option>
+            <option value="BINANCE:AVAXUSDT">AVAX / USDT (Avalanche)</option>
+            <option value="BINANCE:ADAUSDT">ADA / USDT (Cardano)</option>
+          </optgroup>
+          <!-- Forex Pariteleri -->
+          <optgroup label="💱 Forex & OTC">
+            <option value="FX:EURUSD">EUR / USD (Döviz)</option>
+            <option value="FX:GBPUSD">GBP / USD (Döviz)</option>
+            <option value="FX:USDJPY">USD / JPY (Döviz)</option>
+          </optgroup>
+        </select>
+      </div>
+
+      <div class="control-group">
+        <label for="timeSelect">Süre Seçimi</label>
+        <select id="timeSelect">
+          <option value="3s">⚡ 3 Saniye</option>
+          <option value="5s">⚡ 5 Saniye</option>
+          <option value="15s">⏱ 15 Saniye</option>
+          <option value="30s">⏱ 30 Saniye</option>
+          <option value="1m">⏳ 1 Dakika</option>
+          <option value="5m">⏳ 5 Dakika</option>
+        </select>
+      </div>
     </div>
 
-    <!-- Kullanım Kılavuzu -->
+    <!-- VIP Kılavuz -->
     <div class="guide-box">
-      <div class="guide-item">
-        <span>GÜÇLÜ AL / AL</span>
-        <span class="buy-text">🟢 YEŞİL (CALL)</span>
-      </div>
-      <div class="guide-item">
-        <span>GÜÇLÜ SAT / SAT</span>
-        <span class="sell-text">🔴 KIRMIZI (PUT)</span>
+      <span>👑 VIP Analiz Kararı:</span>
+      <div>
+        <span class="buy-tag">GÜÇLÜ AL 🟢</span> | <span class="sell-tag">GÜÇLÜ SAT 🔴</span>
       </div>
     </div>
 
-    <!-- TradingView Canlı İndikatör Alanı -->
+    <!-- TradingView Canlı Gerçek Analiz İbresi -->
     <div class="widget-box" id="widgetContainer"></div>
+
+    <!-- Bota Gönder Butonu -->
+    <button class="bot-btn" onclick="sendSignalToBot()">
+      ✈️ BOTA SİNYALİ GÖNDER
+    </button>
   </div>
 
   <script>
+    // Telegram WebApp Başlat
+    const tg = window.Telegram ? window.Telegram.WebApp : null;
+    if (tg) {
+      tg.expand(); // Ekranı tam boyuta getir
+    }
+
     function updateWidget() {
       const container = document.getElementById('widgetContainer');
       const symbol = document.getElementById('symbolSelect').value;
@@ -185,7 +250,7 @@
         "interval": "1m",
         "width": "100%",
         "isTransparent": true,
-        "height": "430",
+        "height": "400",
         "symbol": symbol,
         "showIntervalTabs": true,
         "displayMode": "single",
@@ -197,6 +262,27 @@
       container.appendChild(widgetDiv);
     }
 
+    // Seçilen Sinyali Telegram Botuna Mesaj Olarak Gönderme Fonksiyonu
+    function sendSignalToBot() {
+      const symbolSelect = document.getElementById('symbolSelect');
+      const pairText = symbolSelect.options[symbolSelect.selectedIndex].text;
+      const timeSelect = document.getElementById('timeSelect').value;
+
+      const payload = {
+        action: "VIP_SIGNAL_SELECTED",
+        pair: pairText,
+        timeframe: timeSelect,
+        timestamp: new Date().toLocaleTimeString('tr-TR')
+      };
+
+      if (tg) {
+        tg.sendData(JSON.stringify(payload));
+      } else {
+        alert(`VIP Sinyal Bilgisi:\nParite: ${pairText}\nSüre: ${timeSelect}\n\n(Bu WebApp Telegram içinde açıldığında veriler doğrudan bota iletilir.)`);
+      }
+    }
+
+    // İlk açılışta yükle
     updateWidget();
   </script>
 
