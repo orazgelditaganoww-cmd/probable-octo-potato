@@ -3,154 +3,347 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NexusPulse AI</title>
+  <title>NexusPulse Pro - Trading Terminal</title>
   <style>
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     }
+
     body {
-      background-color: #0d1117;
-      color: #ffffff;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: #0b0e14;
+      color: #e0e6ed;
       display: flex;
       justify-content: center;
       align-items: center;
       min-height: 100vh;
-      padding: 20px;
-    }
-    .card {
-      background-color: #161b22;
-      border: 1px solid #30363d;
-      border-radius: 16px;
-      padding: 24px;
-      width: 100%;
-      max-width: 360px;
-      text-align: center;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-    }
-    .title {
-      font-size: 20px;
-      font-weight: bold;
-      color: #2ea043;
-      margin-bottom: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-    }
-    .form-group {
-      margin-bottom: 16px;
-      text-align: left;
-    }
-    label {
-      display: block;
-      font-size: 12px;
-      color: #8b949e;
-      margin-bottom: 6px;
-      font-weight: 600;
-      text-transform: uppercase;
-    }
-    select {
-      width: 100%;
       padding: 12px;
-      background-color: #21262d;
-      border: 1px solid #30363d;
-      border-radius: 8px;
-      color: #ffffff;
-      font-size: 14px;
-      outline: none;
     }
-    select:focus {
-      border-color: #58a6ff;
+
+    .app-card {
+      background: #131722;
+      border: 1px solid #2a2e3d;
+      border-radius: 16px;
+      width: 100%;
+      max-width: 400px;
+      padding: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
     }
-    .result-box {
-      background-color: #0d1117;
-      border: 1px solid #30363d;
-      border-radius: 8px;
-      padding: 16px;
-      margin: 20px 0;
+
+    /* Top Bar */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #2a2e3d;
+      padding-bottom: 12px;
+    }
+
+    .brand {
       font-size: 18px;
-      font-weight: bold;
-      color: #58a6ff;
-      min-height: 58px;
+      font-weight: 800;
+      color: #00e676;
       display: flex;
       align-items: center;
-      justify-content: center;
+      gap: 6px;
     }
-    .btn {
+
+    .status-badge {
+      font-size: 11px;
+      background: rgba(0, 230, 118, 0.15);
+      color: #00e676;
+      padding: 4px 8px;
+      border-radius: 20px;
+      border: 1px solid rgba(0, 230, 118, 0.3);
+    }
+
+    /* Canvas Chart Area */
+    .chart-container {
+      background: #0d1117;
+      border: 1px solid #2a2e3d;
+      border-radius: 12px;
+      height: 140px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    canvas {
       width: 100%;
-      padding: 14px;
-      background-color: #0088cc;
-      border: none;
-      border-radius: 8px;
-      color: #ffffff;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: background-color 0.2s;
+      height: 100%;
     }
-    .btn:active {
-      background-color: #006699;
+
+    /* Controls */
+    .controls-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .control-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    label {
+      font-size: 11px;
+      color: #787d8d;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    select {
+      background: #1e222d;
+      border: 1px solid #2a2e3d;
+      color: #fff;
+      padding: 10px;
+      border-radius: 8px;
+      font-size: 13px;
+      outline: none;
+      font-weight: 600;
+    }
+
+    select:focus {
+      border-color: #2962ff;
+    }
+
+    /* Signal & Countdown Box */
+    .signal-box {
+      background: #0d1117;
+      border: 1px solid #2a2e3d;
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 90px;
+    }
+
+    .signal-title {
+      font-size: 12px;
+      color: #787d8d;
+      margin-bottom: 4px;
+    }
+
+    .signal-value {
+      font-size: 22px;
+      font-weight: 800;
+      color: #2962ff;
+    }
+
+    .timer-display {
+      font-size: 14px;
+      color: #ffb300;
+      font-weight: 700;
+      margin-top: 4px;
+      display: none;
+    }
+
+    /* Pocket Option Style Button */
+    .action-btn {
+      background: linear-gradient(135deg, #2962ff, #1e4bd8);
+      border: none;
+      color: white;
+      padding: 14px;
+      font-size: 16px;
+      font-weight: 800;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(41, 98, 255, 0.4);
+      transition: all 0.2s;
+    }
+
+    .action-btn:active {
+      transform: scale(0.98);
+      opacity: 0.9;
+    }
+
+    .action-btn:disabled {
+      background: #2a2e3d;
+      box-shadow: none;
+      color: #787d8d;
+      cursor: not-allowed;
     }
   </style>
 </head>
 <body>
 
-  <div class="card">
-    <div class="title">⚡ NexusPulse AI</div>
-    
-    <!-- Parite Seçimi -->
-    <div class="form-group">
-      <label for="pair">Parite / Döviz Seçin</label>
-      <select id="pair">
-        <option value="EUR/USD (OTC)">EUR / USD (OTC)</option>
-        <option value="GBP/USD (OTC)">GBP / USD (OTC)</option>
-        <option value="USD/JPY (OTC)">USD / JPY (OTC)</option>
-        <option value="AUD/CAD (OTC)">AUD / CAD (OTC)</option>
-        <option value="BTC/USDT">BTC / USDT</option>
-      </select>
+  <div class="app-card">
+    <div class="header">
+      <div class="brand">⚡ NexusPulse Pro</div>
+      <div class="status-badge">LIVE OTC</div>
     </div>
 
-    <!-- Zaman Dilimi Seçimi -->
-    <div class="form-group">
-      <label for="timeframe">Süre (Zaman Dilimi)</label>
-      <select id="timeframe">
-        <option value="1 Dakika">1 Dakika</option>
-        <option value="2 Dakika">2 Dakika</option>
-        <option value="5 Dakika">5 Dakika</option>
-      </select>
+    <!-- Live Candle Chart -->
+    <div class="chart-container">
+      <canvas id="candleChart"></canvas>
     </div>
 
-    <!-- Sinyal Durum Alanı -->
-    <div class="result-box" id="status">Tayýar</div>
+    <!-- Controls -->
+    <div class="controls-grid">
+      <div class="control-group">
+        <label for="pairSelect">Parite</label>
+        <select id="pairSelect">
+          <option value="EUR/USD (OTC)">EUR / USD (OTC)</option>
+          <option value="GBP/USD (OTC)">GBP / USD (OTC)</option>
+          <option value="USD/JPY (OTC)">USD / JPY (OTC)</option>
+          <option value="BTC/USDT">BTC / USDT</option>
+          <option value="ETH/USDT">ETH / USDT</option>
+        </select>
+      </div>
 
-    <!-- Buton -->
-    <button class="btn" onclick="generateSignal()">SIGNAL AL</button>
+      <div class="control-group">
+        <label for="timeSelect">Süre (Saniye)</label>
+        <select id="timeSelect">
+          <option value="5">5 Saniye</option>
+          <option value="15">15 Saniye</option>
+          <option value="30">30 Saniye</option>
+          <option value="60">1 Dakika (60s)</option>
+          <option value="300">5 Dakika (300s)</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Signal Result & Timer -->
+    <div class="signal-box">
+      <div class="signal-title" id="boxTitle">Sinyal Durumu</div>
+      <div class="signal-value" id="signalOutput">HAZIR</div>
+      <div class="timer-display" id="timerOutput">⏳ Kalan Süre: 0s</div>
+    </div>
+
+    <!-- Action Button -->
+    <button class="action-btn" id="mainBtn" onclick="runAnalysis()">SİNYAL AL</button>
   </div>
 
   <script>
-    function generateSignal() {
-      const pair = document.getElementById('pair').value;
-      const timeframe = document.getElementById('timeframe').value;
-      const status = document.getElementById('status');
-      
-      status.style.color = '#e3b341';
-      status.innerText = 'Analiz Yapılıyor...';
-      
+    // --- Animated Candlestick Chart Simulation ---
+    const canvas = document.getElementById('candleChart');
+    const ctx = canvas.getContext('2d');
+
+    function resizeCanvas() {
+      canvas.width = canvas.parentElement.clientWidth;
+      canvas.height = canvas.parentElement.clientHeight;
+    }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    let candles = [];
+    const candleCount = 18;
+
+    // Generate initial candles
+    let lastClose = 100;
+    for (let i = 0; i < candleCount; i++) {
+      let open = lastClose;
+      let close = open + (Math.random() - 0.48) * 6;
+      let high = Math.max(open, close) + Math.random() * 3;
+      let low = Math.min(open, close) - Math.random() * 3;
+      candles.push({ open, close, high, low });
+      lastClose = close;
+    }
+
+    function drawChart() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const w = canvas.width / candleCount;
+      const padding = 4;
+
+      // Find min and max for scaling
+      let min = Math.min(...candles.map(c => c.low));
+      let max = Math.max(...candles.map(c => c.high));
+
+      candles.forEach((c, i) => {
+        const x = i * w + w / 2;
+        const isGreen = c.close >= c.open;
+        const color = isGreen ? '#00e676' : '#ff5252';
+
+        const openY = canvas.height - ((c.open - min) / (max - min)) * (canvas.height - 20) - 10;
+        const closeY = canvas.height - ((c.close - min) / (max - min)) * (canvas.height - 20) - 10;
+        const highY = canvas.height - ((c.high - min) / (max - min)) * (canvas.height - 20) - 10;
+        const lowY = canvas.height - ((c.low - min) / (max - min)) * (canvas.height - 20) - 10;
+
+        // Draw Wick
+        ctx.strokeStyle = color;
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.moveTo(x, highY);
+        ctx.lineTo(x, lowY);
+        ctx.stroke();
+
+        // Draw Candle Body
+        ctx.fillStyle = color;
+        const bodyTop = Math.min(openY, closeY);
+        const bodyHeight = Math.max(Math.abs(openY - closeY), 2);
+        ctx.fillRect(x - (w - padding * 2) / 2, bodyTop, w - padding * 2, bodyHeight);
+      });
+    }
+
+    // Live chart update interval
+    setInterval(() => {
+      let last = candles[candles.length - 1];
+      let open = last.close;
+      let close = open + (Math.random() - 0.48) * 5;
+      let high = Math.max(open, close) + Math.random() * 2;
+      let low = Math.min(open, close) - Math.random() * 2;
+
+      candles.shift();
+      candles.push({ open, close, high, low });
+      drawChart();
+    }, 1200);
+
+    drawChart();
+
+    // --- Signal & Timer Logic ---
+    let timerInterval = null;
+
+    function runAnalysis() {
+      const btn = document.getElementById('mainBtn');
+      const signalOutput = document.getElementById('signalOutput');
+      const timerOutput = document.getElementById('timerOutput');
+      const boxTitle = document.getElementById('boxTitle');
+      const timeSec = parseInt(document.getElementById('timeSelect').value);
+
+      btn.disabled = true;
+      boxTitle.innerText = "Yapay Zeka Analiz Ediyor...";
+      signalOutput.style.color = "#ffb300";
+      signalOutput.innerText = "ANALİZ...";
+      timerOutput.style.display = "none";
+
       setTimeout(() => {
-        const isCall = Math.random() > 0.5;
+        const isCall = Math.random() > 0.48;
         if (isCall) {
-          status.style.color = '#3fb950';
-          status.innerText = '🟢 AL (CALL)';
+          signalOutput.style.color = "#00e676";
+          signalOutput.innerText = "🟢 YÜKSELİŞ (CALL)";
         } else {
-          status.style.color = '#f85149';
-          status.innerText = '🔴 SAT (PUT)';
+          signalOutput.style.color = "#ff5252";
+          signalOutput.innerText = "🔴 DÜŞÜŞ (PUT)";
         }
-      }, 1200);
+
+        boxTitle.innerText = "Aktif İşlem Sinyali";
+        timerOutput.style.display = "block";
+
+        let timeLeft = timeSec;
+        timerOutput.innerText = `⏱ Saniye: ${timeLeft}s`;
+
+        clearInterval(timerInterval);
+        timerInterval = setInterval(() => {
+          timeLeft--;
+          if (timeLeft > 0) {
+            timerOutput.innerText = `⏱ Saniye: ${timeLeft}s`;
+          } else {
+            clearInterval(timerInterval);
+            timerOutput.innerText = "✅ İŞLEM TAMAMLANDI";
+            btn.disabled = false;
+          }
+        }, 1000);
+
+      }, 1000);
     }
   </script>
-
 </body>
-        </html>
+</html>
