@@ -10,7 +10,8 @@
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      user-select: none;
     }
 
     body {
@@ -20,289 +21,469 @@
       justify-content: center;
       align-items: center;
       min-height: 100vh;
-      padding: 10px;
+      padding: 12px;
     }
 
-    .vip-card {
-      background: linear-gradient(145deg, #121621, #0a0d14);
-      border: 1px solid #1f2636;
-      border-radius: 20px;
+    .app-container {
       width: 100%;
-      max-width: 440px;
+      max-width: 420px;
+      background: #0f131c;
+      border: 1px solid #1f2636;
+      border-radius: 16px;
       padding: 18px;
-      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.8), 0 0 15px rgba(255, 215, 0, 0.05);
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     }
 
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid #1f2636;
-      padding-bottom: 12px;
+    /* VIP Header */
+    .vip-card {
+      background: linear-gradient(145deg, #181e2b, #10141e);
+      border: 1px solid #2a3447;
+      border-radius: 12px;
+      padding: 14px;
+      text-align: center;
+      margin-bottom: 16px;
     }
 
-    .brand {
-      font-size: 19px;
-      font-weight: 900;
-      color: #ffffff;
+    .vip-title {
+      color: #00e5ff;
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
       display: flex;
       align-items: center;
+      justify-content: center;
       gap: 6px;
     }
 
-    .brand span { color: #00e676; }
-
-    .vip-badge {
-      font-size: 11px;
-      background: linear-gradient(135deg, #ffd700, #ffa500);
-      color: #000;
-      padding: 4px 10px;
-      border-radius: 20px;
-      font-weight: 800;
-      box-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
-    }
-
-    .controls-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-    }
-
-    .control-group {
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-    }
-
-    label {
-      font-size: 10px;
-      color: #787d8d;
-      text-transform: uppercase;
-      font-weight: 800;
-    }
-
-    select {
-      background: #181d29;
-      border: 1px solid #2a3245;
-      color: #fff;
-      padding: 10px 8px;
-      border-radius: 10px;
-      font-size: 13px;
-      outline: none;
-      font-weight: 700;
-      width: 100%;
-    }
-
-    select:focus { border-color: #ffd700; }
-
-    /* Signal Display Box */
-    .signal-result-card {
-      background: #0d111a;
-      border: 1px solid #252d3d;
-      border-radius: 14px;
-      padding: 14px;
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 85px;
-    }
-
-    .signal-title {
-      font-size: 11px;
-      color: #787d8d;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-bottom: 4px;
-    }
-
-    .signal-value {
-      font-size: 22px;
-      font-weight: 900;
-      color: #ffd700;
-    }
-
-    .timer-text {
-      font-size: 13px;
-      color: #00e676;
-      font-weight: 700;
+    .vip-subtitle {
+      color: #8a8f99;
+      font-size: 12px;
       margin-top: 4px;
     }
 
-    .widget-box {
-      background: #090c12;
-      border: 1px solid #1f2636;
-      border-radius: 14px;
-      overflow: hidden;
-      height: 380px;
-    }
-
-    .action-btn {
-      background: linear-gradient(135deg, #00e676, #00b359);
-      border: none;
-      color: #000;
-      padding: 14px;
-      font-size: 16px;
-      font-weight: 900;
-      border-radius: 12px;
+    /* Asset Selector Trigger */
+    .selector-box {
+      background: #171b26;
+      border: 1px solid #2a3346;
+      border-radius: 10px;
+      padding: 12px 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       cursor: pointer;
-      box-shadow: 0 4px 20px rgba(0, 230, 118, 0.3);
-      transition: all 0.2s;
+      margin-bottom: 16px;
+      transition: border-color 0.2s;
     }
 
-    .action-btn:active { transform: scale(0.98); }
-    .action-btn:disabled {
-      background: #2a3245;
-      color: #787d8d;
-      box-shadow: none;
-      cursor: not-allowed;
+    .selector-box:hover {
+      border-color: #00e5ff;
+    }
+
+    .selected-asset-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 600;
+      font-size: 15px;
+    }
+
+    /* Signal Display Area */
+    .signal-box {
+      background: #131722;
+      border: 1px dashed #2a3447;
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+      margin-bottom: 16px;
+    }
+
+    .signal-direction {
+      font-size: 24px;
+      font-weight: 800;
+      margin: 10px 0;
+      letter-spacing: 1px;
+    }
+
+    .buy { color: #00e676; text-shadow: 0 0 12px rgba(0,230,118,0.3); }
+    .sell { color: #ff5252; text-shadow: 0 0 12px rgba(255,82,82,0.3); }
+    .neutral { color: #8a8f99; }
+
+    .accuracy-bar {
+      height: 6px;
+      background: #202634;
+      border-radius: 3px;
+      overflow: hidden;
+      margin-top: 12px;
+    }
+
+    .accuracy-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #00e5ff, #00e676);
+      transition: width 0.5s ease;
+    }
+
+    /* Buttons */
+    .action-btn {
+      width: 100%;
+      background: linear-gradient(135deg, #00e5ff, #0088ff);
+      color: #000;
+      border: none;
+      border-radius: 10px;
+      padding: 14px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(0, 229, 255, 0.25);
+      transition: transform 0.1s, opacity 0.2s;
+    }
+
+    .action-btn:active {
+      transform: scale(0.98);
+    }
+
+    /* Modal Overlay */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(4px);
+      display: none;
+      justify-content: center;
+      align-items: flex-end;
+      z-index: 999;
+    }
+
+    .modal-content {
+      width: 100%;
+      max-width: 420px;
+      max-height: 80vh;
+      background: #131722;
+      border-top-left-radius: 20px;
+      border-top-right-radius: 20px;
+      border: 1px solid #2a3447;
+      overflow-y: auto;
+      padding: 16px;
+      animation: slideUp 0.25s ease-out;
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #202634;
+      margin-bottom: 10px;
+    }
+
+    .modal-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      color: #8a8f99;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    .asset-section-title {
+      font-size: 12px;
+      color: #8a8f99;
+      padding: 10px 4px 6px 4px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .asset-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.15s;
+      margin-bottom: 4px;
+    }
+
+    .asset-item:hover {
+      background: #1e2433;
+    }
+
+    .asset-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    /* Crypto Logo */
+    .crypto-icon {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    /* Pocket Option Dual Flag Forex Styling */
+    .flag-pair {
+      position: relative;
+      width: 32px;
+      height: 24px;
+    }
+
+    .flag-icon {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      object-fit: cover;
+      position: absolute;
+      top: 2px;
+      border: 1.5px solid #131722;
+    }
+
+    .flag-left { left: 0; z-index: 2; }
+    .flag-right { right: 0; z-index: 1; }
+
+    .asset-name {
+      color: #ffffff;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .asset-fullname {
+      color: #6a7181;
+      font-size: 11px;
+      margin-left: 4px;
     }
   </style>
 </head>
 <body>
 
-  <div class="vip-card">
-    <div class="header">
-      <div class="brand">⚡ NexusPulse <span>PRO</span></div>
-      <div class="vip-badge">👑 VIP SIGNALS</div>
+  <div class="app-container">
+    <!-- Header -->
+    <div class="vip-card">
+      <div class="vip-title">⚡ NexusPulse VIP Terminal</div>
+      <div class="vip-subtitle">Institutional Algorithmic Signals</div>
     </div>
 
-    <div class="controls-grid">
-      <div class="control-group">
-        <label for="symbolSelect">Kripto / Parite</label>
-        <select id="symbolSelect" onchange="updateWidget()">
-          <optgroup label="🔥 Popüler Kriptolar">
-            <option value="BINANCE:BTCUSDT">BTC / USDT (Bitcoin)</option>
-            <option value="BINANCE:ETHUSDT">ETH / USDT (Ethereum)</option>
-            <option value="BINANCE:SOLUSDT">SOL / USDT (Solana)</option>
-            <option value="BINANCE:XRPUSDT">XRP / USDT (Ripple)</option>
-            <option value="BINANCE:DOGEUSDT">DOGE / USDT (Dogecoin)</option>
-            <option value="BINANCE:TONUSDT">TON / USDT (Toncoin)</option>
-          </optgroup>
-          <optgroup label="💱 Forex Pariteleri">
-            <option value="FX:EURUSD">EUR / USD (Döviz)</option>
-            <option value="FX:GBPUSD">GBP / USD (Döviz)</option>
-            <option value="FX:USDJPY">USD / JPY (Döviz)</option>
-          </optgroup>
-        </select>
+    <!-- Active Asset Selector Trigger -->
+    <div class="selector-box" onclick="openModal()">
+      <div class="selected-asset-info" id="currentAssetDisplay">
+        <img src="https://assets.coincap.io/assets/icons/btc@2x.png" class="crypto-icon" alt="BTC">
+        <span>BTC / USDT</span>
       </div>
+      <span style="color:#00e5ff; font-size:12px;">Değiştir ▼</span>
+    </div>
 
-      <div class="control-group">
-        <label for="timeSelect">Süre Seçimi</label>
-        <select id="timeSelect">
-          <option value="3">⚡ 3 Saniye</option>
-          <option value="5">⚡ 5 Saniye</option>
-          <option value="15">⏱ 15 Saniye</option>
-          <option value="30">⏱ 30 Saniye</option>
-          <option value="60">⏳ 1 Dakika</option>
-          <option value="300">⏳ 5 Dakika</option>
-        </select>
+    <!-- Signal Box -->
+    <div class="signal-box">
+      <div style="font-size: 12px; color: #8a8f99;">Piyasa Analizi & Sinyal Durumu</div>
+      <div class="signal-direction neutral" id="signalResult">BEKLEMEDE</div>
+      <div style="font-size: 13px; color: #b2b8c2;" id="accuracyText">Sinyal almak için butona basın</div>
+      <div class="accuracy-bar">
+        <div class="accuracy-fill" id="accuracyFill"></div>
       </div>
     </div>
 
-    <!-- Sinyal Gösterim Alanı -->
-    <div class="signal-result-card">
-      <div class="signal-title" id="boxTitle">VIP Analiz Durumu</div>
-      <div class="signal-value" id="signalOutput">HAZIR</div>
-      <div class="timer-text" id="timerOutput" style="display: none;"></div>
+    <!-- Action Button -->
+    <button class="action-btn" onclick="generateSignal()">SİNYAL AL</button>
+  </div>
+
+  <!-- Asset Selection Popup Modal -->
+  <div class="modal-overlay" id="assetModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <span class="modal-title">Varlık Saçın</span>
+        <button class="close-btn" onclick="closeModal()">✕</button>
+      </div>
+
+      <!-- Popüler Kriptolar -->
+      <div class="asset-section-title">🔥 Popüler Kriptolar</div>
+
+      <div class="asset-item" onclick="selectCrypto('BTC / USDT', 'https://assets.coincap.io/assets/icons/btc@2x.png')">
+        <div class="asset-info">
+          <img src="https://assets.coincap.io/assets/icons/btc@2x.png" class="crypto-icon" alt="BTC">
+          <div>
+            <span class="asset-name">BTC / USDT</span>
+            <span class="asset-fullname">Bitcoin</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="asset-item" onclick="selectCrypto('ETH / USDT', 'https://assets.coincap.io/assets/icons/eth@2x.png')">
+        <div class="asset-info">
+          <img src="https://assets.coincap.io/assets/icons/eth@2x.png" class="crypto-icon" alt="ETH">
+          <div>
+            <span class="asset-name">ETH / USDT</span>
+            <span class="asset-fullname">Ethereum</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="asset-item" onclick="selectCrypto('SOL / USDT', 'https://assets.coincap.io/assets/icons/sol@2x.png')">
+        <div class="asset-info">
+          <img src="https://assets.coincap.io/assets/icons/sol@2x.png" class="crypto-icon" alt="SOL">
+          <div>
+            <span class="asset-name">SOL / USDT</span>
+            <span class="asset-fullname">Solana</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="asset-item" onclick="selectCrypto('XRP / USDT', 'https://assets.coincap.io/assets/icons/xrp@2x.png')">
+        <div class="asset-info">
+          <img src="https://assets.coincap.io/assets/icons/xrp@2x.png" class="crypto-icon" alt="XRP">
+          <div>
+            <span class="asset-name">XRP / USDT</span>
+            <span class="asset-fullname">Ripple</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="asset-item" onclick="selectCrypto('DOGE / USDT', 'https://assets.coincap.io/assets/icons/doge@2x.png')">
+        <div class="asset-info">
+          <img src="https://assets.coincap.io/assets/icons/doge@2x.png" class="crypto-icon" alt="DOGE">
+          <div>
+            <span class="asset-name">DOGE / USDT</span>
+            <span class="asset-fullname">Dogecoin</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="asset-item" onclick="selectCrypto('TON / USDT', 'https://assets.coincap.io/assets/icons/ton@2x.png')">
+        <div class="asset-info">
+          <img src="https://assets.coincap.io/assets/icons/ton@2x.png" class="crypto-icon" alt="TON">
+          <div>
+            <span class="asset-name">TON / USDT</span>
+            <span class="asset-fullname">Toncoin</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Forex Pariteleri (Pocket Option Style Dual Flag) -->
+      <div class="asset-section-title">📊 Forex Pariteleri</div>
+
+      <div class="asset-item" onclick="selectForex('EUR / USD', 'https://flagcdn.com/w40/eu.png', 'https://flagcdn.com/w40/us.png')">
+        <div class="asset-info">
+          <div class="flag-pair">
+            <img src="https://flagcdn.com/w40/eu.png" class="flag-icon flag-left" alt="EUR">
+            <img src="https://flagcdn.com/w40/us.png" class="flag-icon flag-right" alt="USD">
+          </div>
+          <div>
+            <span class="asset-name">EUR / USD</span>
+            <span class="asset-fullname">Euro / US Dollar</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="asset-item" onclick="selectForex('GBP / USD', 'https://flagcdn.com/w40/gb.png', 'https://flagcdn.com/w40/us.png')">
+        <div class="asset-info">
+          <div class="flag-pair">
+            <img src="https://flagcdn.com/w40/gb.png" class="flag-icon flag-left" alt="GBP">
+            <img src="https://flagcdn.com/w40/us.png" class="flag-icon flag-right" alt="USD">
+          </div>
+          <div>
+            <span class="asset-name">GBP / USD</span>
+            <span class="asset-fullname">Pound / US Dollar</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="asset-item" onclick="selectForex('USD / JPY', 'https://flagcdn.com/w40/us.png', 'https://flagcdn.com/w40/jp.png')">
+        <div class="asset-info">
+          <div class="flag-pair">
+            <img src="https://flagcdn.com/w40/us.png" class="flag-icon flag-left" alt="USD">
+            <img src="https://flagcdn.com/w40/jp.png" class="flag-icon flag-right" alt="JPY">
+          </div>
+          <div>
+            <span class="asset-name">USD / JPY</span>
+            <span class="asset-fullname">US Dollar / Yen</span>
+          </div>
+        </div>
+      </div>
+
     </div>
-
-    <!-- TradingView Canlı Teknik Analiz -->
-    <div class="widget-box" id="widgetContainer"></div>
-
-    <!-- Sinyal Üret Butonu -->
-    <button class="action-btn" id="mainBtn" onclick="generateVipSignal()">🎯 CANLI SİNYAL AL</button>
   </div>
 
   <script>
-    const tg = window.Telegram ? window.Telegram.WebApp : null;
-    if (tg) tg.expand();
-
-    function updateWidget() {
-      const container = document.getElementById('widgetContainer');
-      const symbol = document.getElementById('symbolSelect').value;
-      container.innerHTML = '';
-
-      const widgetDiv = document.createElement('div');
-      widgetDiv.className = 'tradingview-widget-container';
-
-      const widgetInner = document.createElement('div');
-      widgetInner.className = 'tradingview-widget-container__widget';
-      widgetDiv.appendChild(widgetInner);
-
-      const script = document.createElement('script');
-      script.type = 'text/javascript';
-      script.src = 'https://s3.tradingview.com/external-embedding/embed-widget-technical-analysis.js';
-      script.async = true;
-
-      script.innerHTML = JSON.stringify({
-        "interval": "1m",
-        "width": "100%",
-        "isTransparent": true,
-        "height": "380",
-        "symbol": symbol,
-        "showIntervalTabs": true,
-        "displayMode": "single",
-        "locale": "tr",
-        "colorTheme": "dark"
-      });
-
-      widgetDiv.appendChild(script);
-      container.appendChild(widgetDiv);
+    // Initialize Telegram WebApp
+    if (window.Telegram && window.Telegram.WebApp) {
+      window.Telegram.WebApp.ready();
+      window.Telegram.WebApp.expand();
     }
 
-    let timerInterval;
+    function openModal() {
+      document.getElementById('assetModal').style.display = 'flex';
+    }
 
-    function generateVipSignal() {
-      const btn = document.getElementById('mainBtn');
-      const signalOutput = document.getElementById('signalOutput');
-      const timerOutput = document.getElementById('timerOutput');
-      const boxTitle = document.getElementById('boxTitle');
-      const timeSec = parseInt(document.getElementById('timeSelect').value);
+    function closeModal() {
+      document.getElementById('assetModal').style.display = 'none';
+    }
 
-      btn.disabled = true;
-      boxTitle.innerText = "TradingView Taranıyor...";
-      signalOutput.style.color = "#ffd700";
-      signalOutput.innerText = "ANALİZ EDİLİYOR...";
-      timerOutput.style.display = "none";
+    function selectCrypto(name, iconUrl) {
+      document.getElementById('currentAssetDisplay').innerHTML = `
+        <img src="${iconUrl}" class="crypto-icon" alt="${name}">
+        <span>${name}</span>
+      `;
+      closeModal();
+      resetSignal();
+    }
+
+    function selectForex(name, flag1, flag2) {
+      document.getElementById('currentAssetDisplay').innerHTML = `
+        <div class="flag-pair">
+          <img src="${flag1}" class="flag-icon flag-left">
+          <img src="${flag2}" class="flag-icon flag-right">
+        </div>
+        <span>${name}</span>
+      `;
+      closeModal();
+      resetSignal();
+    }
+
+    function resetSignal() {
+      const sig = document.getElementById('signalResult');
+      sig.innerText = 'BEKLEMEDE';
+      sig.className = 'signal-direction neutral';
+      document.getElementById('accuracyText').innerText = 'Sinyal almak için butona basın';
+      document.getElementById('accuracyFill').style.width = '0%';
+    }
+
+    function generateSignal() {
+      const sig = document.getElementById('signalResult');
+      const accText = document.getElementById('accuracyText');
+      const fill = document.getElementById('accuracyFill');
+
+      sig.innerText = 'ANALİZ EDİLİYOR...';
+      sig.className = 'signal-direction neutral';
 
       setTimeout(() => {
-        const isCall = Math.random() > 0.48;
-        if (isCall) {
-          signalOutput.style.color = "#00e676";
-          signalOutput.innerText = "🟢 YÜKSELİŞ (CALL)";
+        const isBuy = Math.random() > 0.45;
+        const accuracy = Math.floor(Math.random() * 12) + 86; // 86% - 97% arası
+
+        if (isBuy) {
+          sig.innerText = 'BUY (YÜKSELİŞ) 🟢';
+          sig.className = 'signal-direction buy';
         } else {
-          signalOutput.style.color = "#ff5252";
-          signalOutput.innerText = "🔴 DÜŞÜŞ (PUT)";
+          sig.innerText = 'SELL (DÜŞÜŞ) 🔴';
+          sig.className = 'signal-direction sell';
         }
 
-        boxTitle.innerText = "Aktif VIP Sinyal";
-        timerOutput.style.display = "block";
-
-        let timeLeft = timeSec;
-        timerOutput.innerText = `⏱ Kalan Süre: ${timeLeft}s`;
-
-        clearInterval(timerInterval);
-        timerInterval = setInterval(() => {
-          timeLeft--;
-          if (timeLeft > 0) {
-            timerOutput.innerText = `⏱ Kalan Süre: ${timeLeft}s`;
-          } else {
-            clearInterval(timerInterval);
-            timerOutput.innerText = "✅ İŞLEM TAMAMLANDI";
-            btn.disabled = false;
-          }
-        }, 1000);
-
-      }, 1000);
+        accText.innerText = `Güven Oranı: %${accuracy} | Süre: 1-3 Dk`;
+        fill.style.width = `${accuracy}%`;
+      }, 700);
     }
-
-    updateWidget();
   </script>
-
 </body>
 </html>
