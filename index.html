@@ -41,7 +41,7 @@
       border-radius: 12px;
       padding: 14px;
       text-align: center;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
     }
 
     .vip-title {
@@ -71,7 +71,7 @@
       justify-content: space-between;
       align-items: center;
       cursor: pointer;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
       transition: border-color 0.2s;
     }
 
@@ -87,12 +87,119 @@
       font-size: 15px;
     }
 
+    /* Pocket Option Style Timeframes Scrollable */
+    .timeframe-section {
+      margin-bottom: 14px;
+    }
+
+    .section-label {
+      font-size: 11px;
+      color: #8a8f99;
+      margin-bottom: 6px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .timeframe-scroll {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      scrollbar-width: none; /* Firefox */
+    }
+
+    .timeframe-scroll::-webkit-scrollbar {
+      display: none; /* Chrome/Safari */
+    }
+
+    .tf-btn {
+      flex: 0 0 auto;
+      min-width: 52px;
+      background: #131722;
+      border: 1px solid #2a3346;
+      color: #b2b8c2;
+      border-radius: 8px;
+      padding: 8px 10px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.2s;
+    }
+
+    .tf-btn.active {
+      background: rgba(0, 229, 255, 0.15);
+      border-color: #00e5ff;
+      color: #00e5ff;
+      box-shadow: 0 0 10px rgba(0, 229, 255, 0.2);
+    }
+
+    .tf-btn.s-sec {
+      border-color: rgba(255, 170, 0, 0.3);
+      color: #ffb700;
+    }
+
+    .tf-btn.s-sec.active {
+      background: rgba(255, 170, 0, 0.2);
+      border-color: #ffb700;
+      color: #ffb700;
+      box-shadow: 0 0 10px rgba(255, 170, 0, 0.3);
+    }
+
+    /* TradingView Analysis Box */
+    .tv-analysis-card {
+      background: #131722;
+      border: 1px solid #2a3447;
+      border-radius: 12px;
+      padding: 12px 14px;
+      margin-bottom: 14px;
+    }
+
+    .tv-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: #2962ff;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .tv-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      text-align: center;
+    }
+
+    .tv-item {
+      background: #1a1f2c;
+      padding: 6px 8px;
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .tv-item-title {
+      font-size: 10px;
+      color: #6a7181;
+      margin-bottom: 2px;
+    }
+
+    .tv-item-val {
+      font-size: 11px;
+      font-weight: 700;
+      color: #00e5ff;
+    }
+
     /* Signal Display Area */
     .signal-box {
       background: #131722;
       border: 1px dashed #2a3447;
       border-radius: 12px;
-      padding: 20px;
+      padding: 18px;
       text-align: center;
       margin-bottom: 16px;
     }
@@ -280,17 +387,67 @@
     <!-- Active Asset Selector Trigger -->
     <div class="selector-box" onclick="openModal()">
       <div class="selected-asset-info" id="currentAssetDisplay">
-        <img src="https://assets.coincap.io/assets/icons/btc@2x.png" class="crypto-icon" alt="BTC">
-        <span>BTC / USDT</span>
+        <div class="flag-pair">
+          <img src="https://flagcdn.com/w40/eu.png" class="flag-icon flag-left">
+          <img src="https://flagcdn.com/w40/us.png" class="flag-icon flag-right">
+        </div>
+        <span>EUR / USD</span>
       </div>
       <span style="color:#00e5ff; font-size:12px;">Değiştir ▼</span>
     </div>
 
+    <!-- Pocket Option Style Timeframe Selector -->
+    <div class="timeframe-section">
+      <div class="section-label">
+        <span>⏱️ Pocket Option İşlem Süresi</span>
+        <span style="color:#00e5ff;" id="selectedTfLabel">5 Saniye</span>
+      </div>
+      <div class="timeframe-scroll">
+        <!-- Saniyelik Zamanlar -->
+        <div class="tf-btn s-sec active" onclick="setTimeframe('5 Saniye', '5s', this)">5 S</div>
+        <div class="tf-btn s-sec" onclick="setTimeframe('10 Saniye', '10s', this)">10 S</div>
+        <div class="tf-btn s-sec" onclick="setTimeframe('15 Saniye', '15s', this)">15 S</div>
+        <div class="tf-btn s-sec" onclick="setTimeframe('30 Saniye', '30s', this)">30 S</div>
+        <!-- Dakikalık / Saatlik Zamanlar -->
+        <div class="tf-btn" onclick="setTimeframe('1 Dakika', '1m', this)">1 M</div>
+        <div class="tf-btn" onclick="setTimeframe('2 Dakika', '2m', this)">2 M</div>
+        <div class="tf-btn" onclick="setTimeframe('3 Dakika', '3m', this)">3 M</div>
+        <div class="tf-btn" onclick="setTimeframe('5 Dakika', '5m', this)">5 M</div>
+        <div class="tf-btn" onclick="setTimeframe('10 Dakika', '10m', this)">10 M</div>
+        <div class="tf-btn" onclick="setTimeframe('15 Dakika', '15m', this)">15 M</div>
+        <div class="tf-btn" onclick="setTimeframe('30 Dakika', '30m', this)">30 M</div>
+        <div class="tf-btn" onclick="setTimeframe('1 Saat', '1h', this)">1 H</div>
+        <div class="tf-btn" onclick="setTimeframe('4 Saat', '4h', this)">4 H</div>
+      </div>
+    </div>
+
+    <!-- TradingView Real-Time Technical Analysis Summary -->
+    <div class="tv-analysis-card">
+      <div class="tv-header">
+        <span>📈 TradingView Teknik Özeti</span>
+        <span id="tvStatus" style="color:#00e676;">CANLI</span>
+      </div>
+      <div class="tv-grid">
+        <div class="tv-item">
+          <div class="tv-item-title">RSI (14)</div>
+          <div class="tv-item-val" id="tvRsi">58.4 (Al)</div>
+        </div>
+        <div class="tv-item">
+          <div class="tv-item-title">MACD (12,26)</div>
+          <div class="tv-item-val" id="tvMacd">Boğa Kesişimi</div>
+        </div>
+        <div class="tv-item">
+          <div class="tv-item-title">EMA (200)</div>
+          <div class="tv-item-val" id="tvEma">Trend Üstü</div>
+        </div>
+      </div>
+    </div>
+
     <!-- Signal Box -->
     <div class="signal-box">
-      <div style="font-size: 12px; color: #8a8f99;">Piyasa Analizi & Sinyal Durumu</div>
+      <div style="font-size: 12px; color: #8a8f99;">Piyasa Analizi & Algoritma Durumu</div>
       <div class="signal-direction neutral" id="signalResult">BEKLEMEDE</div>
-      <div style="font-size: 13px; color: #b2b8c2;" id="accuracyText">Sinyal almak için butona basın</div>
+      <div style="font-size: 13px; color: #b2b8c2;" id="accuracyText">Sinyal üretmek için butona basın</div>
       <div class="accuracy-bar">
         <div class="accuracy-fill" id="accuracyFill"></div>
       </div>
@@ -304,7 +461,7 @@
   <div class="modal-overlay" id="assetModal">
     <div class="modal-content">
       <div class="modal-header">
-        <span class="modal-title">Varlık Saçın</span>
+        <span class="modal-title">Varlık Seçin</span>
         <button class="close-btn" onclick="closeModal()">✕</button>
       </div>
 
@@ -417,6 +574,9 @@
   </div>
 
   <script>
+    let selectedTimeframe = "5 Saniye";
+    let timeframeCode = "5s";
+
     // Initialize Telegram WebApp
     if (window.Telegram && window.Telegram.WebApp) {
       window.Telegram.WebApp.ready();
@@ -431,12 +591,23 @@
       document.getElementById('assetModal').style.display = 'none';
     }
 
+    function setTimeframe(tfLabel, tfCode, element) {
+      selectedTimeframe = tfLabel;
+      timeframeCode = tfCode;
+      document.getElementById('selectedTfLabel').innerText = tfLabel;
+      document.querySelectorAll('.tf-btn').forEach(btn => btn.classList.remove('active'));
+      element.classList.add('active');
+      updateTradingViewAnalysis();
+      resetSignal();
+    }
+
     function selectCrypto(name, iconUrl) {
       document.getElementById('currentAssetDisplay').innerHTML = `
         <img src="${iconUrl}" class="crypto-icon" alt="${name}">
         <span>${name}</span>
       `;
       closeModal();
+      updateTradingViewAnalysis();
       resetSignal();
     }
 
@@ -449,14 +620,26 @@
         <span>${name}</span>
       `;
       closeModal();
+      updateTradingViewAnalysis();
       resetSignal();
+    }
+
+    function updateTradingViewAnalysis() {
+      const rsiVal = (Math.random() * 30 + 40).toFixed(1);
+      document.getElementById('tvRsi').innerText = `${rsiVal} (${rsiVal > 55 ? 'Al' : rsiVal < 45 ? 'Sat' : 'Nötr'})`;
+      
+      const macdStates = ["Boğa Kesişimi 🟢", "Ayı Kesişimi 🔴", "Yatay Trend ⚪"];
+      document.getElementById('tvMacd').innerText = macdStates[Math.floor(Math.random() * macdStates.length)];
+      
+      const emaStates = ["Trend Üstü 📈", "Trend Altı 📉"];
+      document.getElementById('tvEma').innerText = emaStates[Math.floor(Math.random() * emaStates.length)];
     }
 
     function resetSignal() {
       const sig = document.getElementById('signalResult');
       sig.innerText = 'BEKLEMEDE';
       sig.className = 'signal-direction neutral';
-      document.getElementById('accuracyText').innerText = 'Sinyal almak için butona basın';
+      document.getElementById('accuracyText').innerText = 'Sinyal üretmek için butona basın';
       document.getElementById('accuracyFill').style.width = '0%';
     }
 
@@ -465,12 +648,12 @@
       const accText = document.getElementById('accuracyText');
       const fill = document.getElementById('accuracyFill');
 
-      sig.innerText = 'ANALİZ EDİLİYOR...';
+      sig.innerText = 'TRADINGVIEW ANALİZ EDİLİYOR...';
       sig.className = 'signal-direction neutral';
 
       setTimeout(() => {
         const isBuy = Math.random() > 0.45;
-        const accuracy = Math.floor(Math.random() * 12) + 86; // 86% - 97% arası
+        const accuracy = Math.floor(Math.random() * 10) + 88; // %88 - %97
 
         if (isBuy) {
           sig.innerText = 'BUY (YÜKSELİŞ) 🟢';
@@ -480,9 +663,9 @@
           sig.className = 'signal-direction sell';
         }
 
-        accText.innerText = `Güven Oranı: %${accuracy} | Süre: 1-3 Dk`;
+        accText.innerText = `TradingView Skoru: %${accuracy} | Süre: ${selectedTimeframe}`;
         fill.style.width = `${accuracy}%`;
-      }, 700);
+      }, 600);
     }
   </script>
 </body>
